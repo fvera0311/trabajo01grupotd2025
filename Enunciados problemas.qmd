@@ -96,3 +96,50 @@ Los estados de la naturaleza dependen de la disponibilidad de vuelos y alojamien
 | A      | 1200                | 1200                 | 1200                |
 | B      | 800                 | 1100                 | 1500                |
 | C      | 300                 | 450                  | 600                 |
+
+
+### Enunciados Dani
+
+## Problema 1:
+
+ Matriz:
+
+|       | E1 | E2 | E3 |
+|:------|---:|---:|---:|
+| **A1**| 220|  90| -40|
+| **A2**| 160| 120|  40|
+| **A3**| 110|  80|  60|
+
+
+
+
+## Problema 2:
+
+Una tienda online con sede en Sevilla debe elegir proveedor logístico para la campaña de invierno. Los resultados económicos dependen de la incertidumbre de la demanda (pico, estable o baja). Se consideran tres alternativas contractuales. Los valores son beneficio neto en miles de € (objetivo: maximizar).
+
+Alternativas:
+- **B1. Contrato Fijo:** tarifa plana mensual alta; bajo coste variable; poca flexibilidad.
+- **B2. Contrato Flexible:** sin mínimo mensual; coste variable alto; buena adaptación a picos.
+- **B3. Híbrido:** fijo moderado + variable medio; equilibrio entre coste y flexibilidad.
+
+Estados de la naturaleza:
+- **F1. Pico de demanda**
+- **F2. Demanda estable**
+- **F3. Demanda baja**
+
+Matriz de pagos:
+
+|            | F1 | F2 | F3 |
+|:-----------|---:|---:|---:|
+| **B1 Fijo**     | 180|120| 50|
+| **B2 Flexible** | 150|110| 70|
+| **B3 Híbrido**  | 165|125| 60|
+
+
+
+
+
+
+
+
+
