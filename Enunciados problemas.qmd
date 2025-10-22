@@ -5,6 +5,7 @@ editor: visual
 warning: FALSE
 ---
 
+### Problemas Fernando
 ## Problema 1 (Tabla de valores)
 
 Planteamos la siguiente tabla de beneficios:
@@ -25,18 +26,19 @@ kable(y.1,
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F) %>%
   row_spec(0, bold = T, background = "lightblue")
 ```
+
 ## Problema 2 (Situación real)
 
 Un agricultor se plantea cuándo debería empezar a sembrar su cultivo, las tres opciones que tiene son: hacer una siembra temprana; que permite la correcta maduración del cultivo en caso de sequía, sembrar normalmente; que será lo ideal en caso de clima equilibrado, o hacer una siembra tardía; que permite el crecimiento adecuado en caso de lluvias excesivas.
 
-d1:Hacer una siembra temprana.  
-d2:Hacer una siembra normal.  
+d1:Hacer una siembra temprana.\
+d2:Hacer una siembra normal.\
 d3:Hacer una siembra tardía.
 
 La decisión debe tomarse teniendo en cuenta el posible clima que se presente en los meses siguientes a la siembra, el cual es totalmente impredecible, por lo que no podemos estimar ninguna probabilidad de precipitación. Estos estados climáticos pueden ser:
 
-e1:Clima seco y poco lluvioso.  
-e2:Clima equilibrado con lluvias repartidas de manera uniforme.  
+e1:Clima seco y poco lluvioso.\
+e2:Clima equilibrado con lluvias repartidas de manera uniforme.\
 e3:Clima húmedo con lluvias excesivas.
 
 El beneficio esperado en cada una de las situaciones planteadas es el siguiente:
@@ -55,3 +57,42 @@ kable(y.2,
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F) %>%
   row_spec(0, bold = T, background = "lightgray")
 ```
+
+### Problemas Candela
+## Problema 1: Tabla de decisión inventada
+
+Lucia debe decidir entre tres estrategias de marketing para lanzar un nuevo producto. Los beneficios esperados (en miles de euros) dependen de la respuesta del mercado:
+
+**Situación favorable (beneficios):**
+
+| Estrategia | Mercado A | Mercado B | Mercado C |
+|------------|-----------|-----------|-----------|
+| d1         | 10        | 5         | 7         |
+| d2         | 4         | 8         | 6         |
+| d3         | 3         | 9         | 2         |
+
+**Situación desfavorable (costes):**
+
+| Estrategia | Mercado A | Mercado B | Mercado C |
+|------------|-----------|-----------|-----------|
+| d1         | 12        | 15        | 10        |
+| d2         | 8         | 9         | 11        |
+| d3         | 14        | 7         | 13        |
+
+---
+
+## Problema 2: Vacaciones de Lucia
+
+Lucia está considerando tres opciones para sus vacaciones:
+
+- **Opción A:** Viaje organizado por agencia (coste fijo de 1200 €)
+- **Opción B:** Viaje por cuenta propia (coste variable entre 800 € y 1500 €)
+- **Opción C:** Quedarse en casa y hacer actividades locales (coste entre 300 € y 600 €)
+
+Los estados de la naturaleza dependen de la disponibilidad de vuelos y alojamiento:
+
+| Opción | Alta disponibilidad | Media disponibilidad | Baja disponibilidad |
+|--------|---------------------|----------------------|---------------------|
+| A      | 1200                | 1200                 | 1200                |
+| B      | 800                 | 1100                 | 1500                |
+| C      | 300                 | 450                  | 600                 |
