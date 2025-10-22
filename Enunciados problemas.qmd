@@ -27,7 +27,7 @@ kable(y.1,
 ```
 ## Problema 2 (Situación real)
 
-Un agricultor se plantea cuando debería empezar a sembrar su cultivo, las tres opciones que tiene son: hacer una siembra temprana; que permite la correcta maduración del cultivo en caso de sequía, sembrar normalmente; que será lo ideal en caso de clima equilibrado, o hacer una siembra tardía; que permite el crecimiento adecuado en caso de lluvias excesivas.
+Un agricultor se plantea cuándo debería empezar a sembrar su cultivo, las tres opciones que tiene son: hacer una siembra temprana; que permite la correcta maduración del cultivo en caso de sequía, sembrar normalmente; que será lo ideal en caso de clima equilibrado, o hacer una siembra tardía; que permite el crecimiento adecuado en caso de lluvias excesivas.
 
 d1:Hacer una siembra temprana.  
 d2:Hacer una siembra normal.  
