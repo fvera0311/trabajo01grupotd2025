@@ -1,0 +1,129 @@
+---
+title: "Resolución de Problemas - Teoría de la Decisión"
+author: "Candela Reyes"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cargar-funciones}
+library(formattable)
+library(webshot)
+
+if(!requireNamespace("knitr", quietly = TRUE)) install.packages("knitr")
+library(knitr)
+
+source("TDecisionCodigo-master/teoriadecision_funciones_incertidumbre.R")
+
+```
+
+
+```{r}
+favorable = TRUE
+
+beneficios <- matrix(c(10, 5, 7,
+                       4, 8, 6,
+                       3, 9, 2),
+                     nrow = 3, byrow = TRUE)
+rownames(beneficios) <- c("d1", "d2", "d3")
+colnames(beneficios) <- c("e1", "e2", "e3")
+beneficios
+
+tabla_beneficios <- criterio.Todos(beneficios, alfa = 0.3, favorable = TRUE)
+knitr::kable(tabla_beneficios, caption = "Resultados de los criterios - Beneficios")
+
+res_hur_03 <- criterio.Hurwicz(beneficios, alfa = 0.3, favorable = TRUE)
+res_hur_07 <- criterio.Hurwicz(beneficios, alfa = 0.7, favorable = TRUE)
+
+dec_hur_03 <- get_decision_names(res_hur_03, beneficios)
+dec_hur_07 <- get_decision_names(res_hur_07, beneficios)
+
+resumen_hur_ben <- data.frame(
+  Alpha = c(0.3, 0.7),
+  Decision_optima = c(dec_hur_03, dec_hur_07),
+  ValorOptimo = c(res_hur_03$ValorOptimo, res_hur_07$ValorOptimo),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(resumen_hur_ben, caption = "Decisiones óptimas según Hurwicz - Beneficios")
+
+
+```
+En este problema, Lucia evalúa tres alternativas de decisión (d1, d2, d3) bajo tres estados de la naturaleza (e1, e2, e3), considerando beneficios en miles de euros.
+
+Al aplicar distintos criterios de decisión bajo incertidumbre, se observa que la alternativa d1 es consistentemente la más favorable:
+
+Según el criterio Wald (Maximin), d1 tiene el mayor valor mínimo (5).
+
+Con el criterio Optimista (Maximax), d1 alcanza el beneficio máximo (10).
+
+El criterio Hurwicz, tanto con α = 0.3 como con α = 0.7, también selecciona d1 como óptima, con valores de 6.5 y 8.5 respectivamente.
+
+Los criterios Laplace, Savage y Punto Ideal también favorecen d1.
+
+En resumen, d1 es la alternativa óptima en todos los criterios aplicados, lo que indica una decisión robusta independientemente del nivel de optimismo o del enfoque adoptado. Lucia debería elegir la estrategia d1 si su objetivo es maximizar beneficios en un entorno incierto.
+
+```{r}
+maximin(vacaciones)
+maximax(vacaciones)
+laplace(vacaciones)
+hurwicz(vacaciones, alpha = 0.3)
+minimax_regret(vacaciones)
+
+vacaciones <- matrix(c(1200, 1200, 1200,
+                       800, 1100, 1500,
+                       300, 450, 600),
+                     nrow = 3, byrow = TRUE)
+rownames(vacaciones) <- c("A", "B", "C")
+colnames(vacaciones) <- c("Alta", "Media", "Baja")
+vacaciones
+
+# Mostrar matriz
+knitr::kable(vacaciones, caption = "Matriz de costes - Vacaciones")
+
+
+tabla_vacaciones <- criterio.Todos(vacaciones, alfa = 0.3, favorable = FALSE)
+
+knitr::kable(tabla_vacaciones, caption = "Resultados de los criterios - Vacaciones")
+
+# Aplicar Hurwicz con dos valores de alfa
+res_hur_03 <- criterio.Hurwicz(vacaciones, alfa = 0.3, favorable = FALSE)
+res_hur_07 <- criterio.Hurwicz(vacaciones, alfa = 0.7, favorable = FALSE)
+
+# Función auxiliar para obtener nombres de decisiones
+get_decision_names <- function(res_list, mat) {
+  idx <- res_list$AlternativaOptima
+  idx_num <- as.integer(idx)
+  if (all(is.na(idx_num))) return(NA)
+  paste(rownames(mat)[idx_num], collapse = ", ")
+}
+
+# Crear tabla resumen
+resumen_hur <- data.frame(
+  Alpha = c(0.3, 0.7),
+  Decision_optima = c(get_decision_names(res_hur_03, vacaciones),
+                      get_decision_names(res_hur_07, vacaciones)),
+  ValorOptimo = c(res_hur_03$ValorOptimo, res_hur_07$ValorOptimo),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(resumen_hur, caption = "Decisiones óptimas según Hurwicz")
+
+
+```
+En este problema, Candela evalúa tres alternativas para sus vacaciones (A: agencia, B: por cuenta propia, C: actividades locales) bajo tres escenarios de disponibilidad (Alta, Media, Baja), considerando los costes asociados a cada opción.
+
+Al aplicar los distintos criterios de decisión bajo incertidumbre, se observa que la alternativa C (actividades locales) es consistentemente la más favorable:
+
+Según el criterio Wald (Maximin), C tiene el menor coste máximo (600 €).
+
+Con el criterio Optimista (Minimin), C también presenta el menor coste mínimo (300 €).
+
+El criterio Hurwicz, tanto con α = 0.3 como con α = 0.7, selecciona C como la decisión óptima, con valores de 510 € y 390 € respectivamente.
+
+Los criterios Laplace, Savage y Punto Ideal también favorecen la opción C.
+
+En resumen, si Candela desea minimizar los costes y actuar con prudencia ante la incertidumbre de disponibilidad, la opción C es la más recomendable según todos los criterios aplicados
