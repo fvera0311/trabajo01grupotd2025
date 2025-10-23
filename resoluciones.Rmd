@@ -3,8 +3,13 @@ title: "Resolución de Problemas - Teoría de la Decisión"
 author: "Grupo 8 "
 date: "`r Sys.Date()`"
 output: html_document
-warning: false
+
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = FALSE)
+```
+
 # Problemas Fernando
 Antes de comenzar con los problemas, cargamos las funciones necesarias:
 ```{r}
@@ -177,10 +182,6 @@ kable(res.todos, caption = "Resumen de criterios de decisión bajo incertidumbre
 De acuerdo a los diferentes criterios utilizados, la mejor alternativa a tomar es $d_2$, es decir, hacer una siembra normal. Ya que se considera la mejor alternativa $5$ veces.
 
 # Problemas Candela
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ```{r cargar-funciones}
 library(formattable)
