@@ -177,6 +177,7 @@ kable(res.todos, caption = "Resumen de criterios de decisión bajo incertidumbre
 De acuerdo a los diferentes criterios utilizados, la mejor alternativa a tomar es $d_2$, es decir, hacer una siembra normal. Ya que se considera la mejor alternativa $5$ veces.
 
 # Problemas Candela
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -210,12 +211,8 @@ knitr::kable(tabla_beneficios, caption = "Resultados de los criterios - Benefici
 res_hur_03 <- criterio.Hurwicz(beneficios, alfa = 0.3, favorable = TRUE)
 res_hur_07 <- criterio.Hurwicz(beneficios, alfa = 0.7, favorable = TRUE)
 
-dec_hur_03 <- get_decision_names(res_hur_03, beneficios)
-dec_hur_07 <- get_decision_names(res_hur_07, beneficios)
-
 resumen_hur_ben <- data.frame(
   Alpha = c(0.3, 0.7),
-  Decision_optima = c(dec_hur_03, dec_hur_07),
   ValorOptimo = c(res_hur_03$ValorOptimo, res_hur_07$ValorOptimo),
   stringsAsFactors = FALSE
 )
@@ -224,26 +221,25 @@ knitr::kable(resumen_hur_ben, caption = "Decisiones óptimas según Hurwicz - Be
 
 
 ```
-En este problema, Lucia evalúa tres alternativas de decisión (d1, d2, d3) bajo tres estados de la naturaleza (e1, e2, e3), considerando beneficios en miles de euros.
+En este problema, Lucía evalúa tres alternativas de decisión (d1, d2, d3) bajo tres estados de la naturaleza (e1, e2, e3), considerando beneficios expresados en miles de euros.
 
-Al aplicar distintos criterios de decisión bajo incertidumbre, se observa que la alternativa d1 es consistentemente la más favorable:
+Al aplicar los distintos criterios de decisión bajo incertidumbre, se observa que la alternativa d1 es la más favorable en todos los casos:
 
-Según el criterio Wald (Maximin), d1 tiene el mayor valor mínimo (5).
+Según el criterio de Wald (Maximin), d1 presenta el mayor valor mínimo de beneficio (5).
 
-Con el criterio Optimista (Maximax), d1 alcanza el beneficio máximo (10).
+Con el criterio Optimista (Maximax), d1 obtiene el mayor beneficio posible (10).
 
-El criterio Hurwicz, tanto con α = 0.3 como con α = 0.7, también selecciona d1 como óptima, con valores de 6.5 y 8.5 respectivamente.
+El criterio de Hurwicz, tanto con α = 0.3 como con α = 0.7, también elige d1 como óptima, con valores de 6.5 y 8.5 respectivamente.
 
-Los criterios Laplace, Savage y Punto Ideal también favorecen d1.
+Los criterios de Laplace, Savage y Punto Ideal coinciden en seleccionar la alternativa d1.
 
-En resumen, d1 es la alternativa óptima en todos los criterios aplicados, lo que indica una decisión robusta independientemente del nivel de optimismo o del enfoque adoptado. Lucia debería elegir la estrategia d1 si su objetivo es maximizar beneficios en un entorno incierto.
+En conclusión, la estrategia d1 resulta óptima de forma consistente independientemente del criterio adoptado. Lucía debería optar por d1 si su objetivo es maximizar los beneficios esperados frente a la incertidumbre.
 
 ```{r}
-maximin(vacaciones)
-maximax(vacaciones)
-laplace(vacaciones)
-hurwicz(vacaciones, alpha = 0.3)
-minimax_regret(vacaciones)
+
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+source("teoriadecision_funciones_incertidumbre.R")
 
 vacaciones <- matrix(c(1200, 1200, 1200,
                        800, 1100, 1500,
@@ -252,6 +248,13 @@ vacaciones <- matrix(c(1200, 1200, 1200,
 rownames(vacaciones) <- c("A", "B", "C")
 colnames(vacaciones) <- c("Alta", "Media", "Baja")
 vacaciones
+
+criterio.Optimista(vacaciones)
+criterio.Hurwicz(vacaciones, alfa = 0.3)
+criterio.Laplace(vacaciones)
+criterio.PuntoIdeal(vacaciones)
+criterio.Savage(vacaciones)
+criterio.Wald(vacaciones)
 
 # Mostrar matriz
 knitr::kable(vacaciones, caption = "Matriz de costes - Vacaciones")
@@ -286,16 +289,18 @@ knitr::kable(resumen_hur, caption = "Decisiones óptimas según Hurwicz")
 
 
 ```
-En este problema, Candela evalúa tres alternativas para sus vacaciones (A: agencia, B: por cuenta propia, C: actividades locales) bajo tres escenarios de disponibilidad (Alta, Media, Baja), considerando los costes asociados a cada opción.
+En este segundo problema, Lucía analiza tres alternativas para organizar sus vacaciones:
+A (a través de agencia), B (por cuenta propia) y C (realizando actividades locales), bajo tres escenarios posibles de disponibilidad (Alta, Media y Baja).
+La matriz representa los costes asociados a cada opción (en euros), por lo que el objetivo es minimizarlos.
 
-Al aplicar los distintos criterios de decisión bajo incertidumbre, se observa que la alternativa C (actividades locales) es consistentemente la más favorable:
+Al aplicar los distintos criterios de decisión bajo incertidumbre:
 
-Según el criterio Wald (Maximin), C tiene el menor coste máximo (600 €).
+Según el criterio de Wald (Maximin), la alternativa C tiene el menor coste máximo (600 €).
 
-Con el criterio Optimista (Minimin), C también presenta el menor coste mínimo (300 €).
+Con el criterio Optimista (Minimin), C presenta también el menor coste mínimo (300 €).
 
-El criterio Hurwicz, tanto con α = 0.3 como con α = 0.7, selecciona C como la decisión óptima, con valores de 510 € y 390 € respectivamente.
+El criterio de Hurwicz, tanto con α = 0.3 como con α = 0.7, selecciona C como la mejor opción, con valores de 510 € y 390 € respectivamente.
 
-Los criterios Laplace, Savage y Punto Ideal también favorecen la opción C.
+Los criterios de Laplace, Savage y Punto Ideal también apuntan a C como la más conveniente.
 
-En resumen, si Candela desea minimizar los costes y actuar con prudencia ante la incertidumbre de disponibilidad, la opción C es la más recomendable según todos los criterios aplicados
+En resumen, si Lucía desea minimizar los costes y mantener una postura prudente ante la incertidumbre de disponibilidad, la opción C (actividades locales) es la más recomendable según todos los criterios aplicados.
