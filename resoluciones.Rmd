@@ -305,3 +305,154 @@ El criterio de Hurwicz, tanto con α = 0.3 como con α = 0.7, selecciona C como 
 Los criterios de Laplace, Savage y Punto Ideal también apuntan a C como la más conveniente.
 
 En resumen, si Lucía desea minimizar los costes y mantener una postura prudente ante la incertidumbre de disponibilidad, la opción C (actividades locales) es la más recomendable según todos los criterios aplicados.
+
+
+# Problemas Dani
+
+## Problema 1
+
+Matriz de pagos
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+
+matrizP1 <- matrix(
+c(220,  90, -40,
+160, 120,  40,
+110,  80,  60),
+nrow = 3, byrow = TRUE,
+dimnames = list(
+c("A1","A2","A3"),
+c("E1","E2","E3")
+)
+)
+knitr::kable(matrizP1, caption = "Matriz de pagos (k€)", align = "r")
+
+# modo favorable
+
+wald_fav   <- criterio.Wald(matrizP1, favorable = TRUE)
+opt_fav    <- criterio.Optimista(matrizP1, favorable = TRUE)
+hur06_fav  <- criterio.Hurwicz(matrizP1, alfa = 0.6, favorable = TRUE)
+lap_fav    <- criterio.Laplace(matrizP1, favorable = TRUE)
+sav_fav    <- criterio.Savage(matrizP1, favorable = TRUE)
+
+# Tabla resumen 
+
+resumen_criterio <- function(res, alt_names) {
+vals <- as.numeric(res$ValorAlternativas)
+names(vals) <- alt_names
+i_opt <- as.integer(res$AlternativaOptima[1])
+data.frame(
+Criterio = res$criterio,
+Modo = res$metodo,
+t(vals),
+`Alt. optima` = alt_names[i_opt],
+check.names = FALSE
+)
+}
+alts_p1 <- rownames(matrizP1)
+
+tab_fav <- do.call(rbind, list(
+resumen_criterio(opt_fav,   alts_p1),
+resumen_criterio(wald_fav,  alts_p1),
+resumen_criterio(hur06_fav, alts_p1),
+resumen_criterio(lap_fav,   alts_p1),
+resumen_criterio(sav_fav,   alts_p1)
+))
+knitr::kable(tab_fav, caption = "Resumen de criterios (favorable)", align = "l")
+
+# Matriz de arrepentimientos del criterio Savage
+
+knitr::kable(sav_fav$Pesos, caption = "Matriz de arrepentimientos (favorable)", align = "r")
+
+## Caso desfavorable
+wald_des   <- criterio.Wald(matrizP1, favorable = FALSE)
+opt_des    <- criterio.Optimista(matrizP1, favorable = FALSE)
+hur04_des  <- criterio.Hurwicz(matrizP1, alfa = 0.4, favorable = FALSE)
+lap_des    <- criterio.Laplace(matrizP1, favorable = FALSE)
+sav_des    <- criterio.Savage(matrizP1, favorable = FALSE)
+
+tab_des <- do.call(rbind, list(
+resumen_criterio(opt_des,   alts_p1),
+resumen_criterio(wald_des,  alts_p1),
+resumen_criterio(hur04_des, alts_p1),
+resumen_criterio(lap_des,   alts_p1),
+resumen_criterio(sav_des,   alts_p1)
+))
+knitr::kable(tab_des, caption = "Problema 1 — Resumen de criterios (desfavorable)", align = "l")
+
+# Matriz de arrepentimientos del criterio Savage
+
+knitr::kable(sav_des$Pesos, caption = "Matriz de arrepentimientos (desfavorable)", align = "r")
+
+
+```
+
+### Conclusión
+
+**Resumen por criterio:**
+- **Maximax:** A1  
+- **Maximin (Wald):** A3  
+- **Hurwicz (alpha=0.6):** A1  
+- **Hurwicz (alpha=0.4):** A2  
+- **Laplace:** A2  
+- **Minimax de arrepentimiento (Savage):** A2  
+
+**Decisión final:** Como varios criterios orientados a la robustez (Hurwicz con alpha=0.4, Laplace y Savage) coinciden en **A2**, se recomienda **A2**.  
+Si el decisor prioriza el mejor escenario, la preferencia sería **A1** (Maximax, Hurwicz 0.6); si desea un enfoque estrictamente conservador, **A3** (Wald).
+
+
+## Problema 2
+
+Una tienda online de moda con sede en Sevilla debe elegir **proveedor logístico** para la campaña de invierno. El resultado económico depende de la **incertidumbre de la demanda** durante la campaña.
+
+**Alternativas (A):**
+- **B1_Fijo**: contrato con cuota fija mensual alta y bajo coste variable (poca flexibilidad, buen rendimiento en picos).
+- **B2_Flexible**: sin mínimo mensual; coste variable alto (mucha flexibilidad, protege en escenarios bajos).
+- **B3_Hibrido**: fijo moderado + variable medio (solución de compromiso).
+
+**Estados de la naturaleza (E):**
+- **F1_Pico**: fuerte incremento de pedidos (picos por campañas/promos).
+- **F2_Estable**: demanda en línea con la media histórica.
+- **F3_Baja**: caída de pedidos respecto a lo esperado.
+
+Los valores de la matriz son **beneficios netos** de la campaña (en k€). No se dispone de probabilidades para los estados y se debe **maximizar** el beneficio.
+
+
+Matriz de pagos
+
+```{r}
+
+
+matrizP2 <- matrix(
+c(180,120, 50,   # B1_Fijo
+150,110, 70,   # B2_Flexible
+165,125, 60),  # B3_Hibrido
+nrow = 3, byrow = TRUE,
+dimnames = list(
+c("B1_Fijo","B2_Flexible","B3_Hibrido"),
+c("F1_Pico","F2_Estable","F3_Baja")
+)
+)
+knitr::kable(matrizP2, caption = "Matriz de pagos (k€)", align = "r")
+
+## Tabla unica 
+
+
+tabla_p2 <- criterio.Todos(matrizP2, alfa = 0.6, favorable = TRUE)
+knitr::kable(tabla_p2, caption = "Todos los métodos (alpha=0.6, favorable)")
+
+
+```
+
+### Conclusión
+
+**Resumen por criterio**
+- **Maximax:** B1_Fijo  
+- **Wald (pesimista):** B2_Flexible  
+- **Hurwicz (alpha=0.6):** B1_Fijo  
+- **Laplace:** B1_Fijo / B3_Hibrido *(empate)*  
+- **Minimax de arrepentimiento (Savage):** B3_Hibrido  
+
+**Decisión final:** Dado que **Savage** minimiza el peor arrepentimiento y recomienda **B3_Hibrido**, y **Laplace** también lo sitúa al nivel más alto (empatado), la opción **B3_Hibrido** se considera la **más robusta** y equilibrada.  
+Si se prioriza el mejor escenario, la preferencia sería **B1_Fijo** (Maximax, Hurwicz 0.6); con un enfoque estrictamente conservador, **B2_Flexible** (Wald).
+
